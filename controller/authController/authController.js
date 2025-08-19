@@ -32,7 +32,9 @@ const handleRegister = async (req, res) => {
     setTokenCookie(res, token);
 
     return res.status(201).json({
-    user
+   message: "Signup successful",
+   token,
+    data:user
     });
   } catch (error) {
     console.error('Register error:', error);
@@ -58,7 +60,9 @@ const handleLogin = async (req, res) => {
      setTokenCookie(res, token);
 
     return res.json({
-    user
+    message: "Login successful",
+     token,
+    data:user
     });
   } catch (error) {
     console.error('Login error:', error);
@@ -73,7 +77,7 @@ const handleLogout = (req, res) => {
     res.status(200).json({ message: "Logged out successfully" });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ msg: `Server error: ${error}` });
+    return res.status(500).json({ message: `Server error: ${error}` });
   }
 };
 
@@ -84,7 +88,7 @@ const handleForgotPassword = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(404).json({ msg: "User not found" });
+      return res.status(404).json({ message: "User not found" });
     }
 
     const resetToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
@@ -100,16 +104,16 @@ const handleForgotPassword = async (req, res) => {
     );
 
     if (!emailSent) {
-      return res.status(500).json({ msg: "Failed to send reset email" });
+      return res.status(500).json({ message: "Failed to send reset email" });
     }
 
     return res.status(200).json({
       resetLink,
-      msg: "Reset link sent to your email successfully",
+      message: "Reset link sent to your email successfully",
     });
   } catch (error) {
     return res.status(500).json({
-      msg: `Server error from forgot password: ${error.message}`,
+      message: `Server error from forgot password: ${error.message}`,
     });
   }
 };
@@ -136,11 +140,11 @@ const handleResetPassword = async (req, res) => {
 
     await user.save();
 
-    return res.status(200).json({ msg: "Password reset successfully" });
+    return res.status(200).json({ message: "Password reset successfully" });
   } catch (error) {
     return res
       .status(500)
-      .json({ msg: `Server error from handleResetPassword: ${error}` });
+      .json({ message: `Server error from handleResetPassword: ${error}` });
   }
 };
 

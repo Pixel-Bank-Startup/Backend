@@ -20,16 +20,16 @@ const handleUpdateUserProfile = async (req, res) => {
     });
 
     if (!updatedUser) {
-      return res.status(404).json({ msg: "User not found" });
+      return res.status(404).json({ message: "User not found" });
     }
 
     res.status(200).json({
-      msg: "Profile updated successfully",
+      message: "Profile updated successfully",
       user: updatedUser,
     });
   } catch (error) {
     console.error("Update error:", error);
-    res.status(500).json({ msg: "Server error while updating profile" });
+    res.status(500).json({ message: "Server error while updating profile" });
   }
 };
 
