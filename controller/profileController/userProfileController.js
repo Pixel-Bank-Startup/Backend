@@ -25,7 +25,7 @@ const handleUpdateUserProfile = async (req, res) => {
 
     res.status(200).json({
       message: "Profile updated successfully",
-      user: updatedUser,
+      data: updatedUser,
     });
   } catch (error) {
     console.error("Update error:", error);
