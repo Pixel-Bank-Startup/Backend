@@ -4,7 +4,7 @@ const handleUpdateUserProfile = async (req, res) => {
   try {
     const userId = req.user.id;
 
-    const { fullName,gitHubUsername,linkedInProfileURL,kaggleUsername} = req.body|| {};
+    const { fullName, gitHubUsername, linkedInProfileURL, kaggleUsername } = req.body;
     const profilePic = req.file ? req.file.path : undefined;
 
     const updateData = {};
@@ -16,8 +16,8 @@ const handleUpdateUserProfile = async (req, res) => {
 
     const updatedUser = await User.findByIdAndUpdate(userId, updateData, {
       new: true,
-      select: "-password",
-    });
+      runValidators: true,
+    }).select("-password");
 
     if (!updatedUser) {
       return res.status(404).json({ message: "User not found" });
@@ -40,7 +40,11 @@ const handleGetProfile = async (req, res) => {
     .select('-password')
 
     if (!user) return res.status(404).json({ message: 'User not found' });
-    res.json(user);
+
+      res.status(200).json({
+      message: "Profile Fetched successfully",
+      data: user,
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

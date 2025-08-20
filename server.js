@@ -40,7 +40,7 @@ const profileRoute = require('./routes/profileRoutes/userProfile');
 
 
 app.use("/api/auth", authRoutes,googleAuthRoute);
-app.use("/api/user",checkForAuthenticationCookie,authorizeRoles(['user','admin']),profileRoute);
+app.use("/api/user",checkForAuthenticationCookie('token'),authorizeRoles(['user','admin']),profileRoute);
 
 app.get("/", (req, res) => res.send("API Server is running..."));
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
