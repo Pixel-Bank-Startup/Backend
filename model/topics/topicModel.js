@@ -10,7 +10,7 @@ const TopicSchema = new mongoose.Schema(
     description: {
       type: String,
     },
-    collectionName: {
+    collectionId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "ProblemCollection",
       required: true,

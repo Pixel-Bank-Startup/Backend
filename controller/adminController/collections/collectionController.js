@@ -1,13 +1,16 @@
 const ProblemCollection = require("../../../model/collections/collectionModel");
+const Problem = require("../../../model/problemModel/problem");
+const Topic = require('../../../model/topics/topicModel');
 
 
-const createCollection = async (req, res) => {
+
+const handleCreateCollection = async (req, res) => {
   try {
-    const { name, description } = req.body;
+    const { name, description, section, coverImageUrl, isPremium } = req.body;
     const exists = await ProblemCollection.findOne({ name });
     if (exists) return res.status(400).json({ message: "Collection already exists" });
 
-    const collection = await ProblemCollection.create({ name, description });
+    const collection = await ProblemCollection.create({ name, description, section, coverImageUrl, isPremium });
     res.status(201).json(collection);
   } catch (err) {
     res.status(500).json({ message: "Error creating collection", error: err.message });
@@ -15,7 +18,7 @@ const createCollection = async (req, res) => {
 };
 
 
-const getCollections = async (req, res) => {
+const handleGetCollections = async (req, res) => {
   try {
     const collections = await ProblemCollection.find().sort({ createdAt: -1 });
     res.status(200).json(collections);
@@ -24,25 +27,49 @@ const getCollections = async (req, res) => {
   }
 };
 
-
-const getCollectionById = async (req, res) => {
+const handleGetCollectionById = async (req, res) => {
   try {
     const { id } = req.params;
+
     const collection = await ProblemCollection.findById(id);
-    if (!collection) return res.status(404).json({ message: "Collection not found" });
-    res.status(200).json(collection);
+    if (!collection) {
+      return res.status(404).json({ message: "Collection not found" });
+    }
+
+    const topics = await Topic.find({ collectionId: id });
+
+    const topicsWithQuestions = await Promise.all(
+      topics.map(async (topic) => {
+        const questions = await Problem.find(
+          { topicId: topic._id },
+          "_id title" 
+        );
+        return { ...topic.toObject(), questions };
+      })
+    );
+
+    res.status(200).json({
+      ...collection.toObject(),
+      topics: topicsWithQuestions
+    });
   } catch (err) {
-    res.status(500).json({ message: "Error fetching collection", error: err.message });
+    res.status(500).json({
+      message: "Error fetching collection",
+      error: err.message,
+    });
   }
 };
 
-const updateCollection = async (req, res) => {
+const handleUpdateCollection = async (req, res) => {
   try {
     const { id } = req.params;
     const updateData = {};
-    const { name, description } = req.body;
+    const { name, description, section, coverImageUrl, isPremium } = req.body;
     if (name) updateData.name = name;
     if (description) updateData.description = description;
+    if (section) updateData.section = section;
+    if (coverImageUrl) updateData.coverImageUrl = coverImageUrl;
+    if (isPremium !== undefined) updateData.isPremium = isPremium;
 
     const updated = await ProblemCollection.findByIdAndUpdate(id, updateData, { new: true });
     if (!updated) return res.status(404).json({ message: "Collection not found" });
@@ -52,7 +79,7 @@ const updateCollection = async (req, res) => {
   }
 };
 
-const deleteCollection = async (req, res) => {
+const handleDeleteCollection = async (req, res) => {
   try {
     const { id } = req.params;
     const deleted = await ProblemCollection.findByIdAndDelete(id);
@@ -64,9 +91,9 @@ const deleteCollection = async (req, res) => {
 };
 
 module.exports = {
-  createCollection,
-  getCollections,
-  getCollectionById,
-  updateCollection,
-  deleteCollection,
+  handleCreateCollection,
+  handleGetCollections,
+  handleGetCollectionById,
+  handleUpdateCollection,
+  handleDeleteCollection
 };

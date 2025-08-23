@@ -62,12 +62,12 @@ const ProblemSchema = new mongoose.Schema(
     explanation: {
       type: String,
     },
-    collectionName: {
+    collectionId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "ProblemCollection",
       required: true,
     },
-    topic: {
+    topicId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Topic",
       required: true,

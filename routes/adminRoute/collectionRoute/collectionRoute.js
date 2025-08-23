@@ -1,13 +1,14 @@
 const express = require("express");
-const {createCollection, getCollections, getCollectionById, updateCollection, deleteCollection } = require("../../../controller/adminController/collections/collectionController");
+const {
+  handleCreateCollection,
+  handleUpdateCollection,
+  handleDeleteCollection
+} = require("../../../controller/adminController/collections/collectionController");
+
 const router = express.Router();
 
-
-
-router.post("/", createCollection);
-router.get("/", getCollections);
-router.get("/:id", getCollectionById);
-router.put("/:id", updateCollection);
-router.delete("/:id", deleteCollection);
+router.post("/collection/add", handleCreateCollection);
+router.put("/collection/:id", handleUpdateCollection);
+router.delete("/collection/:id", handleDeleteCollection);
 
 module.exports = router;

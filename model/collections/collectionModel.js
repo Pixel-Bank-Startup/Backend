@@ -11,9 +11,15 @@ const ProblemCollectionSchema = new mongoose.Schema(
     description: {
       type: String,
     },
-      isPremium: {
+    coverImageUrl: {
+      type: String,
+    },
+    section: {
+      type: Number,
+    },
+    isPremium: {
       type: Boolean,
-      default: false, 
+      default: false,
     },
   },
   { timestamps: true }

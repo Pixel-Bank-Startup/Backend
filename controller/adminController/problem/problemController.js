@@ -3,14 +3,16 @@ const Topic = require("../../../model/topics/topicModel");
 const Collection = require("../../../model/collections/collectionModel");
 
 const handleAddProblems = async (req, res) => {
-  const { topicId } = req.params;
-  const { title, description, difficulty, category, constraints, sampleInput, sampleOutput, explanation } = req.body;
+
+  const { collectionId,topicId,title, description, difficulty, category, constraints, sampleInput, sampleOutput, explanation } = req.body;
   try {
 
     const topic = await Topic.findById(topicId);
     if (!topic) return res.status(404).json({ message: "Topic not found" });
 
-    const collectionId = topic.collection;
+    const collection = await Collection.findById(collectionId);
+    if (!collection) return res.status(404).json({ message: "Collection not found" });
+
 
     const existingProblem = await Problem.findOne({ title });
     if (existingProblem) {
@@ -26,8 +28,8 @@ const handleAddProblems = async (req, res) => {
       sampleInput,
       sampleOutput,
       explanation,
-      topic: topicId,
-      collection: collectionId,
+      topicId,
+      collectionId,
     });
 
     await newProblem.save();
@@ -65,7 +67,7 @@ const handleUpdateProblem = async (req, res) => {
 
 
 const handleDeleteProblem = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.body;
   try {
     const deletedProblem = await Problem.findByIdAndDelete(id);
     if (!deletedProblem) {
@@ -79,17 +81,23 @@ const handleDeleteProblem = async (req, res) => {
 
 const handleGetProblems = async (req, res) => {
   try {
-    const problems = await Problem.find().sort({ createdAt: -1 }).populate("topic").populate("collection");
+    const problems = await Problem.find({}, "_id title difficulty category status")
+      .sort({ createdAt: -1 });
+
     res.status(200).json(problems);
   } catch (error) {
-    res.status(500).json({ message: "Error fetching problems", error: error.message });
+    res.status(500).json({
+      message: "Error fetching problems",
+      error: error.message,
+    });
   }
 };
 
+
 const handleGetProblemById = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.body;
   try {
-    const problem = await Problem.findById(id).populate("topic").populate("collection");
+    const problem = await Problem.findById(id)
     if (!problem) {
       return res.status(404).json({ message: "Problem not found" });
     }

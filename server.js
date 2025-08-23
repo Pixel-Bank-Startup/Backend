@@ -38,12 +38,14 @@ const googleAuthRoute = require("./routes/authRoutes/loginWithGoogle");
 const profileRoute = require("./routes/profileRoutes/userProfile");
 const problemRoute = require("./routes/problemRoute/problemRoute");
 const handleProblemtRoute = require("./routes/adminRoute/probemRoute/handleProblem");
-const collectionRoute = require("./routes/adminRoute/collectionRoute/collectionRoute");
-const topicRoute = require("./routes/adminRoute/topicRoute/topicRoute");
+const handleCollectionRoute = require("./routes/adminRoute/collectionRoute/collectionRoute");
+const handleTopicRoute = require("./routes/adminRoute/topicRoute/topicRoute");
 const premiumPlanRoute = require("./routes/adminRoute/premiumPlanRoute/planRoute");
+const userCollectionRoute = require('./routes/collectionRoute/collectionRoute');
+const topicRoute = require('./routes/topicRoute/topicRoute')
 
 app.use("/api/auth", authRoutes, googleAuthRoute);
-app.use("/api/general", problemRoute);
+app.use("/api/general", problemRoute, userCollectionRoute,topicRoute);
 app.use(
   "/api/user",
   checkForAuthenticationCookie("token"),
@@ -55,8 +57,8 @@ app.use(
   checkForAuthenticationCookie("token"),
   authorizeRoles(["admin"]),
   handleProblemtRoute,
-  collectionRoute,
-  topicRoute,
+  handleCollectionRoute,
+  handleTopicRoute,
   premiumPlanRoute
 );
 
