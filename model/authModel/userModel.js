@@ -6,6 +6,30 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    badges: [
+      {
+        badgeId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Badge",
+        },
+        earnedAt: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
+    solvedProblems: [
+      {
+        problemId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Problem",
+        },
+        solvedAt: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
     fullName: {
       type: String,
     },
@@ -50,6 +74,16 @@ const userSchema = new mongoose.Schema(
     flameScoreAttained: {
       type: Number,
     },
+    hasPremiumAccess: {
+      type: Boolean,
+      default: false,
+    },
+    premiumPlan: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Plan",
+    },
+    premiumStartDate: { type: Date },
+    premiumEndDate: { type: Date },
   },
   { timestamps: true }
 );

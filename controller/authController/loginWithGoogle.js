@@ -10,7 +10,6 @@ const qs = require("querystring");
 const User = require("../../model/authModel/userModel");
 const setTokenCookie = require("../../authService/setTokenCookie");
 
-
 const redirectToGoogle = (req, res) => {
   const googleAuthURL =
     `https://accounts.google.com/o/oauth2/v2/auth?` +
@@ -82,18 +81,21 @@ const googleCallback = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: user._id, email: user.email,role: user.role },
+      { id: user._id, email: user.email, role: user.role },
       JWT_SECRET,
       { expiresIn: "365d" }
     );
     setTokenCookie(res, token);
-    const encodedName = encodeURIComponent(user.fullName);
-    const encodedEmail = encodeURIComponent(user.email);
-    const encodedRole = encodeURIComponent(user.role);
+    const userObj = user.toObject ? user.toObject() : user;
+    delete userObj.password;
 
-    return res.redirect(
-      `${Frontend_URL}/?name=${encodedName}&email=${encodedEmail}&role=${encodedRole}`
-    );
+    const queryParams = Object.keys(userObj)
+      .map(
+        (key) =>
+          `${encodeURIComponent(key)}=${encodeURIComponent(userObj[key])}`
+      )
+      .join("&");
+    return res.redirect(`${Frontend_URL}/?${queryParams}`);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Internal Server Error" });
