@@ -1,4 +1,4 @@
-const ProblemFeedback = require('../../model/feedbackModel/problemFeedbackModel');
+const ProblemFeedback = require('../../model/feedbackModel/problemFeedback');
 
 
 const handleCreateFeedback = async (req, res) => {
@@ -29,7 +29,7 @@ const handleCreateFeedback = async (req, res) => {
 
 const handleGetAllFeedback = async (req, res) => {
   try {
-    const feedbacks = await ProblemFeedback.find().populate('userId', 'name email').populate('problemId', 'title');
+    const feedbacks = await ProblemFeedback.find().populate('userId', 'fullName email').populate('problemId', 'title');
     res.status(200).json({ success: true, feedbacks });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
@@ -47,8 +47,7 @@ const handleGetUserFeedback = async (req, res) => {
 
 const handleUpdateFeedbackStatus = async (req, res) => {
   try {
-    const { id } = req.params;
-    const { status } = req.body;
+    const {id, status } = req.body;
 
     const feedback = await ProblemFeedback.findByIdAndUpdate(id, { status }, { new: true });
 

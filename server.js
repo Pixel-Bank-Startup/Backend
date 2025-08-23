@@ -42,24 +42,36 @@ const handleProblemtRoute = require("./routes/adminRoute/probemRoute/handleProbl
 const handleCollectionRoute = require("./routes/adminRoute/collectionRoute/collectionRoute");
 const handleTopicRoute = require("./routes/adminRoute/topicRoute/topicRoute");
 const premiumPlanRoute = require("./routes/adminRoute/premiumPlanRoute/planRoute");
-const userCollectionRoute = require('./routes/collectionRoute/collectionRoute');
-const topicRoute = require('./routes/topicRoute/topicRoute');
-const problemSubmissionRoute = require('./routes/submissionRoute/submitCode');
-const userStats = require('./routes/statistics/userStats');
+const userCollectionRoute = require("./routes/collectionRoute/collectionRoute");
+const topicRoute = require("./routes/topicRoute/topicRoute");
+const problemSubmissionRoute = require("./routes/submissionRoute/submitCode");
+const userStats = require("./routes/statistics/userStats");
 const leaderboardRoute = require("./routes/statistics/rankingLeaderBoard");
-const handleDailyQuestionRoute = require('./routes/adminRoute/dailyQuestion/question');
-const dailyQuestionRoute = require('./routes/dailyQuestionRoute/dailyQuestion');
-const handleBadgeRoute = require('./routes/adminRoute/badgeRoute/badgeRoute')
+const handleDailyQuestionRoute = require("./routes/adminRoute/dailyQuestion/question");
+const dailyQuestionRoute = require("./routes/dailyQuestionRoute/dailyQuestion");
+const handleBadgeRoute = require("./routes/adminRoute/badgeRoute/badgeRoute");
+const problemCommentRoute = require("./routes/commentRoute/userComment");
+const feedbackRoute = require("./routes/feedbackRoute/problemFeedback");
+const handleFeedbackRoute = require("./routes/adminRoute/feedbackRoute/problemFeedbackRoute");
 
 app.use("/api/auth", authRoutes, googleAuthRoute);
-app.use("/api/general", problemRoute, userCollectionRoute,topicRoute,leaderboardRoute,dailyQuestionRoute);
+app.use(
+  "/api/general",
+  problemRoute,
+  userCollectionRoute,
+  topicRoute,
+  leaderboardRoute,
+  dailyQuestionRoute,
+  problemCommentRoute
+);
 app.use(
   "/api/user",
   checkForAuthenticationCookie("token"),
   authorizeRoles(["user", "admin"]),
   profileRoute,
   problemSubmissionRoute,
-  userStats
+  userStats,
+  feedbackRoute
 );
 app.use(
   "/api/admin",
@@ -70,7 +82,8 @@ app.use(
   handleTopicRoute,
   premiumPlanRoute,
   handleDailyQuestionRoute,
-  handleBadgeRoute
+  handleBadgeRoute,
+  handleFeedbackRoute
 );
 
 app.get("/", (req, res) => res.send("API Server is running..."));

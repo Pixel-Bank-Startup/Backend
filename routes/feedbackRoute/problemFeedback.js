@@ -3,6 +3,6 @@ const { handleCreateFeedback } = require('../../controller/feedbackController/pr
 
 const router = express.Router();
 
-router.post('/',  handleCreateFeedback);
+router.post('/feedback/add',  handleCreateFeedback);
 
 module.exports = router;
