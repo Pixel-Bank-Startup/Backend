@@ -1,15 +1,14 @@
-const VideoSolution = require("../models/VideoSolution");
+const VideoSolution = require("../../model/problemSolutionModel/videoSolution");
 
 const handleAddVideoSolution = async (req, res) => {
   try {
-    const { questionId, description } = req.body;
-    const videoUrl = req.file?.path; // if using multer + cloudinary
+    const { questionId, description ,videoUrl} = req.body;
 
     if (!videoUrl) return res.status(400).json({ message: "Video is required" });
 
     const videoSolution = await VideoSolution.create({
       questionId,
-      userId: req.user._id,
+      userId: req.user.id,
       videoUrl,
       description,
     });
@@ -26,8 +25,8 @@ const handleAddVideoSolution = async (req, res) => {
 
 const handleGetVideoSolutions = async (req, res) => {
   try {
-    const { questionId } = req.params;
-    const solutions = await VideoSolution.find({ questionId }).populate("userId", "name");
+    const { questionId } = req.body;
+    const solutions = await VideoSolution.find({ questionId }).populate("userId", "fullName");
     res.status(200).json(solutions);
   } catch (error) {
     res.status(500).json({ message: "Error fetching video solutions", error });
@@ -37,8 +36,8 @@ const handleGetVideoSolutions = async (req, res) => {
 
 const handleVoteVideoSolution = async (req, res) => {
   try {
-    const { solutionId } = req.params;
-    const { type } = req.body; // "upvote" or "downvote"
+    const { solutionId } = req.body;
+    const { type } = req.body; 
 
     const videoSolution = await VideoSolution.findById(solutionId);
     if (!videoSolution) return res.status(404).json({ message: "Solution not found" });

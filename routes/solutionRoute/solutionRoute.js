@@ -3,8 +3,8 @@ const { handleSubmitSolution, handleGetSolutionsByQuestion, handleGetSolutionsBy
 const router = express.Router();
 
 
-router.post("/submit", handleSubmitSolution);
-router.get("/question/:questionId", handleGetSolutionsByQuestion);
-router.get("/user/:userId", handleGetSolutionsByUser);
+router.post("/solution/submit", handleSubmitSolution);
+router.get("/solution/question", handleGetSolutionsByQuestion);
+router.get("/solution/user/:userId", handleGetSolutionsByUser);
 
 module.exports = router;

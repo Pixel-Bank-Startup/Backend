@@ -24,12 +24,11 @@ const handleSubmitSolution = async (req, res) => {
   }
 };
 
-// Get all solutions for a question
 const handleGetSolutionsByQuestion = async (req, res) => {
   try {
-    const { questionId } = req.params;
+    const { questionId } = req.body;
     const solutions = await TextSolution.find({ questionId })
-      .populate("userId", "username email")
+      .populate("userId", "fullName email")
       .sort({ createdAt: -1 });
 
     res.status(200).json(solutions);
@@ -38,10 +37,9 @@ const handleGetSolutionsByQuestion = async (req, res) => {
   }
 };
 
-// Get all solutions by a user
 const handleGetSolutionsByUser = async (req, res) => {
   try {
-    const { userId } = req.params;
+    const { userId } = req.body;
     const solutions = await TextSolution.find({ userId })
       .populate("questionId", "title difficulty")
       .sort({ createdAt: -1 });

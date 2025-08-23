@@ -1,4 +1,3 @@
-// models/VideoSolution.js
 const mongoose = require("mongoose");
 
 const videoSolutionSchema = new mongoose.Schema(
@@ -10,24 +9,20 @@ const videoSolutionSchema = new mongoose.Schema(
     },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "user",
       required: true,
     },
     videoUrl: {
-      type: String, // Cloudinary or S3 video URL
+      type: String, 
       required: true,
     },
     description: {
-      type: String, // optional explanation
+      type: String, 
       trim: true,
     },
-    upvotes: {
-      type: Number,
-      default: 0,
-    },
-    downvotes: {
-      type: Number,
-      default: 0,
+    createdAt: {
+      type: Date,
+      default: Date.now,
     },
   },
   { timestamps: true }

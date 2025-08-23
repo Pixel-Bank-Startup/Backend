@@ -53,6 +53,8 @@ const handleBadgeRoute = require("./routes/adminRoute/badgeRoute/badgeRoute");
 const problemCommentRoute = require("./routes/commentRoute/userComment");
 const feedbackRoute = require("./routes/feedbackRoute/problemFeedback");
 const handleFeedbackRoute = require("./routes/adminRoute/feedbackRoute/problemFeedbackRoute");
+const problemTextSolutionRoute = require("./routes/solutionRoute/solutionRoute");
+const problemVideoSolutionRoute  = require("./routes/solutionRoute/videoSolutionRoute");
 
 app.use("/api/auth", authRoutes, googleAuthRoute);
 app.use(
@@ -71,7 +73,9 @@ app.use(
   profileRoute,
   problemSubmissionRoute,
   userStats,
-  feedbackRoute
+  feedbackRoute,
+  problemTextSolutionRoute,
+  problemVideoSolutionRoute
 );
 app.use(
   "/api/admin",
