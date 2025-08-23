@@ -52,15 +52,21 @@ const ProblemSchema = new mongoose.Schema(
       type: String,
     },
     sampleInput: {
-      type: String,
+      type: [],
       required: true,
+      trim: true,
     },
     sampleOutput: {
-      type: String,
+      type: [],
       required: true,
+      trim: true,
     },
     explanation: {
       type: String,
+    },
+    languages: {
+      type: [String],
+      required: true,
     },
     collectionId: {
       type: mongoose.Schema.Types.ObjectId,

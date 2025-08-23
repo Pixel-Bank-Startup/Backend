@@ -1,14 +1,15 @@
 const express = require("express");
 const { handleGetProblems, handleGetProblemById, handleSearchProblems } = require("../../controller/adminController/problem/problemController");
 const { handleGetDailyQuestion } = require("../../controller/dailyProblem/dailyProblem");
+const optionalAuthentication = require("../../middleware/optionalMiddleware");
 const router = express.Router();
 
 
-router.get("/problems", handleGetProblems);             
-router.get("/problems/:id", handleGetProblemById); 
+router.get("/problems",optionalAuthentication('token') , handleGetProblems);             
+router.get("/problems/details",  handleGetProblemById); 
 //GET /api/problems/search?title=graph
 //GET /api/problems/search?category=Dynamic%20Programming
 //GET /api/problems/search?title=tree&category=Graph&difficulty=Hard
-router.get("/problems//search", handleSearchProblems);      
+router.get("/problems/search", handleSearchProblems);      
 router.get('/daily-question', handleGetDailyQuestion);
 module.exports = router;

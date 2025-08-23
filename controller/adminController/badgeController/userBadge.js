@@ -1,5 +1,5 @@
 const Badge = require("../../../model/badgeModel/userBadge");
-const User = require("../../../model/userModel/userModel");
+const User = require("../../../model/authModel/userModel");
 
 
 const handleCreateBadge = async (req, res) => {
@@ -39,9 +39,9 @@ const handleDeleteBadge = async (req, res) => {
 const handleGetUserBadges = async (req, res) => {
   try {
     const userId = req.user.id;
-    const user = await User.findById(userId).select("earnedBadges");
+    const user = await User.findById(userId).select("badges");
 
-    res.json({ success: true, badges: user.earnedBadges || [] });
+    res.json({ success: true, badges: user.badges || [] });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }

@@ -1,26 +1,59 @@
-const UserProblemProgress = require("../../model/problemProgress/problemProgress");
-const User = require("../../model/userModel/userModel");
+const Statistics = require("../../model/userStatistics/stats");
+const { calculateFlameScoreAndRank } = require("../leaderboardController/leaderboard");
 
-const handleMarkProblemSolved = async (req, res) => {
+const getUserStats = async (req, res) => {
   try {
-    const { problemId } = req.body;
-    const userId = req.user.id;
+    const userId = req.user?.id;
 
-    await UserProblemProgress.findOneAndUpdate(
-      { user: userId, problem: problemId },
-      { status: "Solved", solvedAt: new Date() },
-      { upsert: true, new: true }
-    );
+    if (!userId) {
+      return res.status(200).json({
+        totalQuestionsSolved: 0,
+        easyQuestionsSolved: 0,
+        mediumQuestionsSolved: 0,
+        hardQuestionsSolved: 0,
+        currentStreak: 0,
+        longestStreak: 0,
+        completionRate: 0,
+        lastSolvedDate: null,
+      });
+    }
 
-    // Increment user's stats
-    await User.findByIdAndUpdate(userId, { $inc: { totalStreakInDays: 1 } });
+    let stats = await Statistics.findOne({ user: userId }).lean();
 
-    res.json({ success: true, message: "Problem marked as solved" });
+    if (!stats) {
+      stats = {
+        totalQuestionsSolved: 0,
+        easyQuestionsSolved: 0,
+        mediumQuestionsSolved: 0,
+        hardQuestionsSolved: 0,
+        currentStreak: 0,
+        longestStreak: 0,
+        completionRate: 0,
+        lastSolvedDate: null,
+      };
+    }
+
+    res.status(200).json(stats);
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    console.error("Error fetching user stats:", error);
+    res.status(500).json({
+      message: "Error fetching user stats",
+      error: error.message,
+    });
   }
 };
 
+const updateRankingUser = async(req, res)=>{
+ try {
+    await calculateFlameScoreAndRank();
+    res.status(200).json({ message: "Ranking and flame score updated successfully!" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error updating ranking", error: error.message });
+  }
+}
+
 module.exports = {
-  handleMarkProblemSolved
+  getUserStats,
+  updateRankingUser 
 };

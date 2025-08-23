@@ -1,10 +1,12 @@
 const Problem = require('../../../model/problemModel/problem');
 const Topic = require("../../../model/topics/topicModel");
 const Collection = require("../../../model/collections/collectionModel");
+const submissionModel = require('../../../model/submissionModel/submissionModel');
+const User = require('../../../model/authModel/userModel');
 
 const handleAddProblems = async (req, res) => {
 
-  const { collectionId,topicId,title, description, difficulty, category, constraints, sampleInput, sampleOutput, explanation } = req.body;
+  const { collectionId,topicId,title, description, difficulty, category, constraints, sampleInput, sampleOutput, explanation, languages } = req.body;
   try {
 
     const topic = await Topic.findById(topicId);
@@ -30,6 +32,7 @@ const handleAddProblems = async (req, res) => {
       explanation,
       topicId,
       collectionId,
+      languages,
     });
 
     await newProblem.save();
@@ -79,19 +82,52 @@ const handleDeleteProblem = async (req, res) => {
   }
 };
 
+
+
 const handleGetProblems = async (req, res) => {
   try {
-    const problems = await Problem.find({}, "_id title difficulty category status")
-      .sort({ createdAt: -1 });
+    console.log("Fetching Problems Started");
 
-    res.status(200).json(problems);
-  } catch (error) {
-    res.status(500).json({
-      message: "Error fetching problems",
-      error: error.message,
+    const userId = req.user?.id;
+    console.log("User ID from request:", userId);
+
+    let solvedProblemIds = [];
+    if (userId) {
+      const user = await User.findById(userId).select("solvedProblems").lean();
+      console.log("User document fetched:", user);
+
+      if (user && Array.isArray(user.solvedProblems)) {
+        solvedProblemIds = user.solvedProblems.map(sp => sp.problemId.toString());
+        console.log("Solved problem IDs:", solvedProblemIds);
+      } else {
+        console.log("User not found or no solvedProblems");
+      }
+    } else {
+      console.log("No user ID provided in request, all problems will be returned as is");
+    }
+
+    const problems = await Problem.find({}, "_id title difficulty category status")
+      .sort({ createdAt: -1 })
+      .lean();
+
+    console.log("Fetched problems from DB:", problems.map(p => ({ id: p._id, title: p.title })));
+
+    const finalProblems = problems.map(p => {
+      const isSolved = solvedProblemIds.includes(p._id.toString());
+      console.log(`Problem: ${p.title}, ID: ${p._id}, Solved: ${isSolved}`);
+      return { ...p, status: isSolved ? "Solved" : "Unsolved" };
     });
+
+    console.log("Final formatted problems to return:", finalProblems.map(p => ({ title: p.title, status: p.status, difficulty: p.difficulty, category: p.category })));
+
+    res.status(200).json(finalProblems);
+    console.log("Fetching Problems Completed");
+  } catch (error) {
+    console.error("Error in handleGetProblems:", error);
+    res.status(500).json({ message: "Error fetching problems", error: error.message });
   }
 };
+
 
 
 const handleGetProblemById = async (req, res) => {

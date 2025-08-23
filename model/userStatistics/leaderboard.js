@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const RankingSchema = new mongoose.Schema({
-  user: {
+  userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "user",
     required: true,
     unique: true,
   },

@@ -3,10 +3,10 @@ const { handleGetPlans, handleGetPlanById, handleCreatePlan, handleUpdatePlan, h
 const router = express.Router();
 
 
-router.get("/", handleGetPlans);
-router.get("/:id", handleGetPlanById);
-router.post("/", handleCreatePlan);
-router.put("/:id", handleUpdatePlan);
-router.delete("/:id", handleDeletePlan);
+router.get("/premium", handleGetPlans);
+router.get("/premium/:id", handleGetPlanById);
+router.post("/premium", handleCreatePlan);
+router.put("/premium/:id", handleUpdatePlan);
+router.delete("/premium/:id", handleDeletePlan);
 
 module.exports = router;

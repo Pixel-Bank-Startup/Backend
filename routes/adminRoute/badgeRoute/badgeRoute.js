@@ -3,7 +3,7 @@ const { handleCreateBadge, handleUpdateBadge, handleDeleteBadge } = require("../
 const router = express.Router();
 
 
-router.post("/badges",  handleCreateBadge);
+router.post("/badges/add",  handleCreateBadge);
 router.put("/badges/:id",  handleUpdateBadge);
 router.delete("/badges/:id",  handleDeleteBadge);
 

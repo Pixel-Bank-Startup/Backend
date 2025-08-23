@@ -1,5 +1,6 @@
 require("dotenv").config();
 require("./schedular/subscription");
+require("./schedular/rankingLeaderBoard");
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -42,15 +43,23 @@ const handleCollectionRoute = require("./routes/adminRoute/collectionRoute/colle
 const handleTopicRoute = require("./routes/adminRoute/topicRoute/topicRoute");
 const premiumPlanRoute = require("./routes/adminRoute/premiumPlanRoute/planRoute");
 const userCollectionRoute = require('./routes/collectionRoute/collectionRoute');
-const topicRoute = require('./routes/topicRoute/topicRoute')
+const topicRoute = require('./routes/topicRoute/topicRoute');
+const problemSubmissionRoute = require('./routes/submissionRoute/submitCode');
+const userStats = require('./routes/statistics/userStats');
+const leaderboardRoute = require("./routes/statistics/rankingLeaderBoard");
+const handleDailyQuestionRoute = require('./routes/adminRoute/dailyQuestion/question');
+const dailyQuestionRoute = require('./routes/dailyQuestionRoute/dailyQuestion');
+const handleBadgeRoute = require('./routes/adminRoute/badgeRoute/badgeRoute')
 
 app.use("/api/auth", authRoutes, googleAuthRoute);
-app.use("/api/general", problemRoute, userCollectionRoute,topicRoute);
+app.use("/api/general", problemRoute, userCollectionRoute,topicRoute,leaderboardRoute,dailyQuestionRoute);
 app.use(
   "/api/user",
   checkForAuthenticationCookie("token"),
   authorizeRoles(["user", "admin"]),
-  profileRoute
+  profileRoute,
+  problemSubmissionRoute,
+  userStats
 );
 app.use(
   "/api/admin",
@@ -59,7 +68,9 @@ app.use(
   handleProblemtRoute,
   handleCollectionRoute,
   handleTopicRoute,
-  premiumPlanRoute
+  premiumPlanRoute,
+  handleDailyQuestionRoute,
+  handleBadgeRoute
 );
 
 app.get("/", (req, res) => res.send("API Server is running..."));
