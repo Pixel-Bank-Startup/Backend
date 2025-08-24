@@ -41,7 +41,6 @@ const problemRoute = require("./routes/problemRoute/problemRoute");
 const handleProblemtRoute = require("./routes/adminRoute/probemRoute/handleProblem");
 const handleCollectionRoute = require("./routes/adminRoute/collectionRoute/collectionRoute");
 const handleTopicRoute = require("./routes/adminRoute/topicRoute/topicRoute");
-const premiumPlanRoute = require("./routes/adminRoute/premiumPlanRoute/planRoute");
 const userCollectionRoute = require("./routes/collectionRoute/collectionRoute");
 const topicRoute = require("./routes/topicRoute/topicRoute");
 const problemSubmissionRoute = require("./routes/submissionRoute/submitCode");
