@@ -4,7 +4,7 @@ const { handleGetPlans, handleGetPlanById } = require("../../controller/adminCon
 const router = express.Router();
 
 
-router.get("/", handleGetPlans);
-router.get("/:id", handleGetPlanById);
+router.get("/premium-plan", handleGetPlans);
+router.get("/premium-plan/:id", handleGetPlanById);
 
 module.exports = router;

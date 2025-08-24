@@ -55,6 +55,10 @@ const feedbackRoute = require("./routes/feedbackRoute/problemFeedback");
 const handleFeedbackRoute = require("./routes/adminRoute/feedbackRoute/problemFeedbackRoute");
 const problemTextSolutionRoute = require("./routes/solutionRoute/solutionRoute");
 const problemVideoSolutionRoute  = require("./routes/solutionRoute/videoSolutionRoute");
+const handlePremiumPlanRoute = require('./routes/adminRoute/premiumPlanRoute/planRoute');
+const userpremiumPlanRoute = require('./routes/premiumPlanRoute/plan');
+const subscribeRoute = require('./routes/subscriptionRoute/subscriptionRoute');
+const paymentRoute = require('./routes/paymentRoute/paymentRoute')
 
 app.use("/api/auth", authRoutes, googleAuthRoute);
 app.use(
@@ -64,7 +68,8 @@ app.use(
   topicRoute,
   leaderboardRoute,
   dailyQuestionRoute,
-  problemCommentRoute
+  problemCommentRoute,
+  userpremiumPlanRoute
 );
 app.use(
   "/api/user",
@@ -75,7 +80,9 @@ app.use(
   userStats,
   feedbackRoute,
   problemTextSolutionRoute,
-  problemVideoSolutionRoute
+  problemVideoSolutionRoute,
+  subscribeRoute,
+  paymentRoute
 );
 app.use(
   "/api/admin",
@@ -84,10 +91,10 @@ app.use(
   handleProblemtRoute,
   handleCollectionRoute,
   handleTopicRoute,
-  premiumPlanRoute,
   handleDailyQuestionRoute,
   handleBadgeRoute,
-  handleFeedbackRoute
+  handleFeedbackRoute,
+  handlePremiumPlanRoute
 );
 
 app.get("/", (req, res) => res.send("API Server is running..."));

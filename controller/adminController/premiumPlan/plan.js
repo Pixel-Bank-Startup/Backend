@@ -2,7 +2,7 @@ const Plan = require("../../../model/premiumPlan/planModel");
 
 const handleCreatePlan = async (req, res) => {
   try {
-    const { name, description, price, currency, durationInDays, features,isActive } = req.body;
+    const { name, description, price, currency, durationInDays, features  } = req.body;
 
 
     if (!name || price == null || durationInDays == null) {
@@ -19,7 +19,6 @@ const handleCreatePlan = async (req, res) => {
       currency,
       durationInDays,
       features,
-      isActive,
     });
 
     return res.status(201).json({ message: "Plan created successfully", plan });
@@ -77,11 +76,7 @@ const handleDeletePlan = async (req, res) => {
 
 const handleGetPlans = async (req, res) => {
   try {
-    const { activeOnly } = req.query;
-    const filter = {};
-    if (activeOnly === "true" || activeOnly === "1") filter.isActive = true;
-
-    const plans = await Plan.find(filter).sort({ price: 1, durationInDays: -1 });
+    const plans = await Plan.find().sort({ price: 1, durationInDays: -1 });
     return res.status(200).json(plans);
   } catch (err) {
     console.error("getPlans err:", err);

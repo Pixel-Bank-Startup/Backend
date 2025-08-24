@@ -2,12 +2,12 @@ const mongoose = require("mongoose");
 
 const SubscriptionSchema = new mongoose.Schema(
   {
-    user: {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
       required: true,
     }, 
-    plan: {
+    planId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Plan",
       required: true,
