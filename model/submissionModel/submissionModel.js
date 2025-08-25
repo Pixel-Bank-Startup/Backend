@@ -15,21 +15,35 @@ const submissionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+    userOutput: {
+    type: [String],
+    default: [],
+  },
+  expectedOutput: {
+    type: [String],
+    default: [],
+  },
   language: {
     type: String,
     required: true,
     enum: ["python", "cpp", "javascript", "java", "c"],
   },
-  userOutput: {
-    type: [],
-  },
-  expectedOutput: {
-    type: [],
+  results: [
+    {
+      testCase: String,
+      userOutput: String,
+      expectedOutput: String,
+      passed: Boolean,
+    },
+  ],
+    judgeResponses: {
+    type: [mongoose.Schema.Types.Mixed],
+    default: [],
   },
   status: {
     type: String,
-    enum: ["passed", "failed","draft"],
-    default: "failed",
+    enum: ["passed", "failed","draft","pending"],
+    default: "pending",
   },
   submittedAt: {
     type: Date,

@@ -10,7 +10,6 @@ const ProblemSchema = new mongoose.Schema(
     title: {
       type: String,
       required: true,
-      unique: true,
       trim: true,
     },
     description: {
@@ -51,16 +50,17 @@ const ProblemSchema = new mongoose.Schema(
     constraints: {
       type: String,
     },
-    sampleInput: {
-      type: [],
-      required: true,
-      trim: true,
+    sample: {
+      input: { type: String, required: true },
+      output: { type: String, required: true },
+      reasoning: { type: String }
     },
-    sampleOutput: {
-      type: [],
-      required: true,
-      trim: true,
-    },
+    testCases: [
+      {
+        input: { type: String, required: true },
+        expectedOutput: { type: String, required: true },
+      }
+    ],
     explanation: {
       type: String,
     },
@@ -93,5 +93,8 @@ ProblemSchema.pre("save", async function (next) {
   }
   next();
 });
+
+// Optional: compound index for unique title within collection & topic
+ProblemSchema.index({ title: 1, collectionId: 1, topicId: 1 }, { unique: true });
 
 module.exports = mongoose.model("Problem", ProblemSchema);

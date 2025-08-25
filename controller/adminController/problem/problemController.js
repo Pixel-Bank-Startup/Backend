@@ -4,22 +4,41 @@ const Collection = require("../../../model/collections/collectionModel");
 const submissionModel = require('../../../model/submissionModel/submissionModel');
 const User = require('../../../model/authModel/userModel');
 
+
+
 const handleAddProblems = async (req, res) => {
+  const {
+    title,
+    description,
+    difficulty,
+    category,
+    constraints,
+    sample,
+    testCases,
+    explanation,
+    languages,
+    collectionId,
+    topicId,
+  } = req.body;
 
-  const { collectionId,topicId,title, description, difficulty, category, constraints, sampleInput, sampleOutput, explanation, languages } = req.body;
   try {
-
     const topic = await Topic.findById(topicId);
-    if (!topic) return res.status(404).json({ message: "Topic not found" });
+    if (!topic) {
+      return res.status(404).json({ message: "Topic not found" });
+    }
 
     const collection = await Collection.findById(collectionId);
-    if (!collection) return res.status(404).json({ message: "Collection not found" });
-
-
-    const existingProblem = await Problem.findOne({ title });
-    if (existingProblem) {
-      return res.status(400).json({ message: "Problem with this title already exists" });
+    if (!collection) {
+      return res.status(404).json({ message: "Collection not found" });
     }
+
+    const existingProblem = await Problem.findOne({ title, collectionId, topicId });
+    if (existingProblem) {
+      return res.status(400).json({
+        message: "Problem with this title already exists in this collection & topic",
+      });
+    }
+
 
     const newProblem = new Problem({
       title,
@@ -27,18 +46,25 @@ const handleAddProblems = async (req, res) => {
       difficulty,
       category,
       constraints,
-      sampleInput,
-      sampleOutput,
+      sample,        
+      testCases,
       explanation,
-      topicId,
-      collectionId,
       languages,
+      collectionId,
+      topicId,
     });
 
     await newProblem.save();
-    res.status(201).json({ message: "Problem added successfully", problem: newProblem });
+
+    res.status(201).json({
+      message: "Problem added successfully",
+      problem: newProblem,
+    });
   } catch (error) {
-    res.status(500).json({ message: "Error adding problem", error: error.message });
+    res.status(500).json({
+      message: "Error adding problem",
+      error: error.message,
+    });
   }
 };
 
