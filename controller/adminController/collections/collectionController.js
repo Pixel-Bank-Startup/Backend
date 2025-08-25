@@ -6,7 +6,8 @@ const Topic = require('../../../model/topics/topicModel');
 
 const handleCreateCollection = async (req, res) => {
   try {
-    const { name, description, section, coverImageUrl, isPremium } = req.body;
+    const { name, description, section,isPremium } = req.body;
+    const coverImageUrl = req.file ? req.file.path : undefined;
     const exists = await ProblemCollection.findOne({ name });
     if (exists) return res.status(400).json({ message: "Collection already exists" });
 
@@ -64,7 +65,8 @@ const handleUpdateCollection = async (req, res) => {
   try {
     const { id } = req.params;
     const updateData = {};
-    const { name, description, section, coverImageUrl, isPremium } = req.body;
+    const { name, description, section, isPremium } = req.body;
+    const coverImageUrl = req.file ? req.file.path : req.body.coverImageUrl;
     if (name) updateData.name = name;
     if (description) updateData.description = description;
     if (section) updateData.section = section;
