@@ -42,7 +42,7 @@ const getUserStats = async (req, res) => {
     });
   }
 };
-
+//for ranking update of user daily
 const updateRankingUser = async(req, res)=>{
  try {
     await calculateFlameScoreAndRank();

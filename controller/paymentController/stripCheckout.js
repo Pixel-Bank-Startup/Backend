@@ -60,7 +60,7 @@ const finalizeSubscription = async (req, res) => {
       paymentId: session.payment_intent,
     };
 
-    
+    //for return to backend subscription function
     return await handleCreateSubscription(req, res);
   } catch (error) {
     console.error("Finalize Subscription Error:", error);

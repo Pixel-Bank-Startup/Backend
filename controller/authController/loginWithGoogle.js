@@ -17,6 +17,8 @@ const redirectToGoogle = (req, res) => {
   res.redirect(googleAuthURL);
 };
 
+
+//for testing
 const googleCallback = async (req, res) => {
   const { code } = req.query;
 

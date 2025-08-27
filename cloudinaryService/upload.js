@@ -7,8 +7,8 @@ const storage = new CloudinaryStorage({
     params: async (req, file) => {
         const isVideo = file.mimetype.startsWith("video/");
         const isPdf = file.mimetype === "application/pdf";
-
-        const fileExt = file.originalname.split(".").pop(); 
+        //for file type image or video or pdf , everythings is acceptable
+        const fileExt = file.originalname.split(".").pop();
         const baseName = file.originalname
             .replace(/\.[^/.]+$/, "") 
             .replace(/\s+/g, "_")     

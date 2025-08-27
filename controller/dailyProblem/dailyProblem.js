@@ -10,7 +10,7 @@ const handleGetDailyQuestion = async (req, res) => {
     if (!dailyQuestion) {
       return res.status(404).json({ message: 'No daily question set yet' });
     }
-
+    //question randomly changes every day
   res.json({
       question: {
         id: dailyQuestion.question._id,
