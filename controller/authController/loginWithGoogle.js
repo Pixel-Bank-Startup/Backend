@@ -18,7 +18,7 @@ const redirectToGoogle = (req, res) => {
 };
 
 
-//for testing
+//for google login 
 const googleCallback = async (req, res) => {
   const { code } = req.query;
 

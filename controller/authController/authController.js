@@ -6,7 +6,7 @@ const clearTokenCookie = require('../../authService/clearCookie');
 const { createToken } = require('../../authService/authService');
 const { sendResetPassword } = require('../../emailService/userAuthEmail');
 
-
+//for register a new user into the system
 const handleRegister = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -81,7 +81,7 @@ const handleLogout = (req, res) => {
   }
 };
 
-
+//for forgot password function , this function allows user to request a password reset
 const handleForgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
@@ -117,7 +117,7 @@ const handleForgotPassword = async (req, res) => {
     });
   }
 };
-
+//for reset password , this function allow user to reset his/her password and thats encrypted
 const handleResetPassword = async (req, res) => {
   const { resetToken } = req.params;
   const { newPassword } = req.body;

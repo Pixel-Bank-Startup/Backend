@@ -95,6 +95,6 @@ app.use(
   handleFeedbackRoute,
   handlePremiumPlanRoute
 );
-
+//for checking backend server status
 app.get("/", (req, res) => res.send("API Server is running..."));
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
