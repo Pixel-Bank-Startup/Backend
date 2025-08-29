@@ -1,24 +1,40 @@
 const Topic = require("../../../model/topics/topicModel");
 const ProblemCollection = require("../../../model/collections/collectionModel");
 
-
 const handleCreateTopic = async (req, res) => {
   try {
-    const { collectionId } = req.params; 
+    const { collectionId } = req.params;
     const { name, description } = req.body;
-    const collection = await ProblemCollection.findById(collectionId);
-    if (!collection) return res.status(404).json({ message: "Collection not found" });
- 
-    const exists = await Topic.findOne({ name, collectionId: collectionId });
-    if (exists) return res.status(400).json({ message: "Topic already exists in this collection" });
 
-    const topic = await Topic.create({ name, description, collectionId: collectionId });
+    const collection = await ProblemCollection.findById(collectionId);
+    if (!collection) {
+      return res.status(404).json({ message: "Collection not found" });
+    }
+
+    const topicCount = await Topic.countDocuments({ collectionId });
+
+    if (topicCount >= collection.section) {
+      return res.status(400).json({
+        message: `Cannot add more topics. Maximum allowed is ${collection.section}.`,
+      });
+    }
+
+    const exists = await Topic.findOne({ name, collectionId });
+    if (exists) {
+      return res.status(400).json({
+        message: "Topic already exists in this collection",
+      });
+    }
+
+    const topic = await Topic.create({ name, description, collectionId });
     res.status(201).json(topic);
   } catch (err) {
-    res.status(500).json({ message: "Error creating topic", error: err.message });
+    res.status(500).json({
+      message: "Error creating topic",
+      error: err.message,
+    });
   }
 };
-
 
 const handleGetTopicsByCollection = async (req, res) => {
   try {

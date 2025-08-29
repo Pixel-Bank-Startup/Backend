@@ -132,7 +132,7 @@ const handleGetProblems = async (req, res) => {
       console.log("No user ID provided in request, all problems will be returned as is");
     }
 
-    const problems = await Problem.find({}, "_id title difficulty category status")
+    const problems = await Problem.find({}, "_id title difficulty category status problemId")
       .sort({ createdAt: -1 })
       .lean();
 
