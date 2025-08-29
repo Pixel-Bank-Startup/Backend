@@ -153,9 +153,7 @@ const handleGetProblems = async (req, res) => {
     res.status(500).json({ message: "Error fetching problems", error: error.message });
   }
 };
-
-
-
+//testing for 
 const handleGetProblemById = async (req, res) => {
   const { id } = req.params;
   try {
