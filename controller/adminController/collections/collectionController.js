@@ -10,7 +10,7 @@ const handleCreateCollection = async (req, res) => {
     const coverImageUrl = req.file ? req.file.path : undefined;
     const exists = await ProblemCollection.findOne({ name });
     if (exists) return res.status(400).json({ message: "Collection already exists" });
-
+x``
     const collection = await ProblemCollection.create({ name, description, section, coverImageUrl, isPremium });
     res.status(201).json(collection);
   } catch (err) {
