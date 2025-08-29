@@ -19,6 +19,7 @@ const handleAddProblems = async (req, res) => {
     languages,
     collectionId,
     topicId,
+    starterCode
   } = req.body;
 
   try {
@@ -52,6 +53,7 @@ const handleAddProblems = async (req, res) => {
       languages,
       collectionId,
       topicId,
+       starterCode: starterCode || {}
     });
 
     await newProblem.save();

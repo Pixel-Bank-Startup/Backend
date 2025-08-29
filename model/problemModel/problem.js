@@ -68,6 +68,12 @@ const ProblemSchema = new mongoose.Schema(
       type: [String],
       required: true,
     },
+    starterCode: {
+      type: Map,
+      of: String, // Each key is a language, value is the starter code
+      default: {}, 
+    },
+
     collectionId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "ProblemCollection",
