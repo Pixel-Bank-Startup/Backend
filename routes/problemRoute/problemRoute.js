@@ -6,7 +6,7 @@ const router = express.Router();
 
 
 router.get("/problems",optionalAuthentication('token') , handleGetProblems);             
-router.get("/problems/details",  handleGetProblemById); 
+router.get("/problems/:id",  handleGetProblemById); 
 //GET /api/problems/search?title=graph
 //GET /api/problems/search?category=Dynamic%20Programming
 //GET /api/problems/search?title=tree&category=Graph&difficulty=Hard

@@ -157,7 +157,7 @@ const handleGetProblems = async (req, res) => {
 
 
 const handleGetProblemById = async (req, res) => {
-  const { id } = req.body;
+  const { id } = req.params;
   try {
     const problem = await Problem.findById(id)
     if (!problem) {
