@@ -3,7 +3,7 @@ const handleSubmitCode = async (req, res) => {
 
   return "dummy response"
 };
-//for saving code
+//for saving code and handling drafts
 const handleSaveCode = async (req, res) => {
   try {
     const { problemId, code, language } = req.body;
