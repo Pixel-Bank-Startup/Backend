@@ -9,8 +9,9 @@ const calculateFlameScoreAndRank = async () => {
     const users = await User.find({}).lean();
 
     for (const user of users) {
-      const stats = await Statistics.findOne({ user: user._id }).lean();
+      if (!user._id) continue;
 
+      const stats = await Statistics.findOne({ user: user._id }).lean();
       if (!stats) continue;
 
       const solvedProblems = user.solvedProblems || [];
@@ -27,6 +28,9 @@ const calculateFlameScoreAndRank = async () => {
 
       flameScore += stats.currentStreak * 5;
 
+      await User.findByIdAndUpdate(user._id, { flameScore });
+      await Statistics.findOneAndUpdate({ user: user._id }, { flameScore });
+
       await Ranking.findOneAndUpdate(
         { userId: user._id },
         { flameScore },
@@ -36,7 +40,6 @@ const calculateFlameScoreAndRank = async () => {
 
     const allRankings = await Ranking.find({}).sort({ flameScore: -1 }).lean();
     let currentRank = 1;
-
     for (const ranking of allRankings) {
       await Ranking.findByIdAndUpdate(ranking._id, { rank: currentRank });
       currentRank++;

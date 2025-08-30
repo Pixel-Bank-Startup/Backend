@@ -43,6 +43,10 @@ const statisticsSchema = new mongoose.Schema({
     type: String,
      default: ""
      },
+  flameScore: {
+     type: Number, 
+     default: 0 
+    },
 }, { timestamps: true });
 
 module.exports = mongoose.model("Statistics", statisticsSchema);

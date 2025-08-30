@@ -82,6 +82,10 @@ const userSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Plan",
     },
+    flameScore: {
+     type: Number, 
+     default: 0 
+    },
     premiumStartDate: { type: Date },
     premiumEndDate: { type: Date },
   },
