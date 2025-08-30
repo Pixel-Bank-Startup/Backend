@@ -50,6 +50,7 @@ const handleCreateSubscription = async (req, res) => {
     return res.status(201).json({
       message: "Subscription taken successfully",
       subscription,
+      user
     });
   } catch (error) {
     console.error(error);
