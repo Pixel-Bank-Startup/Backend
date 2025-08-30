@@ -70,7 +70,7 @@ const ProblemSchema = new mongoose.Schema(
     },
     starterCode: {
       type: Map,
-      of: String, // Each key is a language, value is the starter code
+      of: String, 
       default: {}, 
     },
 

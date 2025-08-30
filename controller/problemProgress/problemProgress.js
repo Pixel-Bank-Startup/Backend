@@ -1,9 +1,13 @@
 const Statistics = require("../../model/userStatistics/stats");
 const { calculateFlameScoreAndRank } = require("../leaderboardController/leaderboard");
+const { updateFavoriteCategory } = require("../stats/userStats");
 
 const getUserStats = async (req, res) => {
   try {
     const userId = req.user?.id;
+
+    await updateFavoriteCategory(userId);
+
 
     if (!userId) {
       return res.status(200).json({

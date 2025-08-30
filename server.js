@@ -73,7 +73,7 @@ app.use(
 app.use(
   "/api/user",
   checkForAuthenticationCookie("token"),
-  authorizeRoles(["user", "admin"]),
+  authorizeRoles(["user","admin"]),
   profileRoute,
   problemSubmissionRoute,
   userStats,
