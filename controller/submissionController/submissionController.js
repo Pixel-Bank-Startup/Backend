@@ -41,7 +41,7 @@ const handleSaveCode = async (req, res) => {
 const handleGetUserSubmissions = async (req, res) => {
   try {
     const userId = req.user.id;
-    const { problemId } = req.body;
+    const { problemId } = req.params;
 
     const submissions = await Submission.find({
       userId,
@@ -59,7 +59,7 @@ const handleGetUserSubmissions = async (req, res) => {
 //for saving draft
 const getSavedDraft = async (req, res) => {
   try {
-    const { problemId } = req.body;
+    const { problemId } = req.params;
     const userId = req.user.id;
 
     const draft = await Submission.findOne({
@@ -82,7 +82,7 @@ const getSavedDraft = async (req, res) => {
 //for single submission of code 
 const getSingleSubmission = async (req, res) => {
   try {
-    const { submissionId } = req.body;
+    const { submissionId } = req.params;
     const userId = req.user.id;
 
     const submission = await Submission.findOne({ _id: submissionId, userId });
