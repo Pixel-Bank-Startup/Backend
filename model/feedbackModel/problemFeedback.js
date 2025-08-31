@@ -20,10 +20,7 @@ const problemFeedbackSchema = new mongoose.Schema({
     type: String,
     required: false
   },
-  generalIssue: {
-    type: String,
-    required: false
-  },
+
     description: {
     type: String,
     required: false
@@ -32,15 +29,18 @@ const problemFeedbackSchema = new mongoose.Schema({
     type: String,
     required: false
   },
-  category: {
+   learnSection: {
     type: String,
-    enum: ['UI', 'Bug', 'Wrong Solution', 'Difficulty Mismatch', 'Other'],
-    default: 'Other'
+    required: false
   },
   difficulty: {
     type: String,
-    enum: ['Easy', 'Medium', 'Hard', 'N/A'],
-    default: 'N/A'
+    enum: ['Easy', 'Medium', 'Hard'],
+    default: 'Easy'
+  },
+   category: {
+    type: String,
+    required: false
   },
   status: {
     type: String,

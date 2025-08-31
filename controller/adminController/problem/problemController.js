@@ -4,8 +4,6 @@ const Collection = require("../../../model/collections/collectionModel");
 const submissionModel = require('../../../model/submissionModel/submissionModel');
 const User = require('../../../model/authModel/userModel');
 
-
-
 const handleAddProblems = async (req, res) => {
   const {
     title,
