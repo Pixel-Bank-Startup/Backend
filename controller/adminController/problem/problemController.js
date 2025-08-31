@@ -19,7 +19,8 @@ const handleAddProblems = async (req, res) => {
     languages,
     collectionId,
     topicId,
-    starterCode
+    starterCode,
+    aboutTopic
   } = req.body;
 
   try {
@@ -47,6 +48,7 @@ const handleAddProblems = async (req, res) => {
       difficulty,
       category,
       constraints,
+      aboutTopic,
       sample,        
       testCases,
       explanation,
@@ -114,10 +116,9 @@ const handleDeleteProblem = async (req, res) => {
 
 const handleGetProblems = async (req, res) => {
   try {
-    console.log("Fetching Problems Started");
-
+    
     const userId = req.user?.id;
-    console.log("User ID from request:", userId);
+
 
     let solvedProblemIds = [];
     if (userId) {
@@ -155,7 +156,6 @@ const handleGetProblems = async (req, res) => {
     res.status(500).json({ message: "Error fetching problems", error: error.message });
   }
 };
-//testing for 
 const handleGetProblemById = async (req, res) => {
   const { id } = req.params;
   try {

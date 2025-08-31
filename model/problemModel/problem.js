@@ -64,6 +64,9 @@ const ProblemSchema = new mongoose.Schema(
     explanation: {
       type: String,
     },
+      aboutTopic: {
+      type: String,
+    },
     languages: {
       type: [String],
       required: true,
