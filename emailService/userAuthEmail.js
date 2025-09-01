@@ -1,6 +1,6 @@
 const { transporter } = require("../config/nodemailerConnection/nodemailer");
 
-const sendResetPassword = async (name, toEmail, resetPasswordLink) => {
+const sendResetPassword = async (toEmail, resetPasswordLink) => {
   try {
     const mailOptions = {
       from: `"Clear-Signal" <${process.env.ADMIN_EMAIL}>`,
@@ -13,7 +13,7 @@ const sendResetPassword = async (name, toEmail, resetPasswordLink) => {
 <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
 
 
-          <h2 style="color: #0056b3;">Hello ${name},</h2>
+          <h2 style="color: #0056b3;">Hello ,</h2>
           <p>You recently requested to reset your password for your Clear-Signal account.</p>
           <p>Please click the button below to reset your password:</p>
           <a href="${resetPasswordLink}" style="
