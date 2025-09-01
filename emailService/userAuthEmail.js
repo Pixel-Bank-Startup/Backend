@@ -13,7 +13,7 @@ const sendResetPassword = async (toEmail, resetPasswordLink) => {
 <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
 
 
-          <h2 style="color: #0056b3;">Hello ,</h2>
+          <h2 style="color: #262525ff;">Hello</h2>
           <p>You recently requested to reset your password for your Clear-Signal account.</p>
           <p>Please click the button below to reset your password:</p>
           <a href="${resetPasswordLink}" style="
@@ -22,7 +22,7 @@ const sendResetPassword = async (toEmail, resetPasswordLink) => {
               margin: 10px 0;
               font-size: 16px;
               color: white;
-              background-color: #007bff;
+              background-color: #4e4d4dff;
               text-decoration: none;
               border-radius: 5px;
           ">Reset Password</a>
