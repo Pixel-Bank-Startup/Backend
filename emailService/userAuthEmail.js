@@ -1,6 +1,6 @@
 const { transporter } = require("../config/nodemailerConnection/nodemailer");
 
-const sendResetPassword = async (toEmail, resetPasswordLink) => {
+const sendForgetPasswordEmail = async (toEmail, resetPasswordLink) => {
   try {
     const mailOptions = {
       from: `"Clear-Signal" <${process.env.ADMIN_EMAIL}>`,
@@ -48,5 +48,5 @@ const sendResetPassword = async (toEmail, resetPasswordLink) => {
 
 
 module.exports = {
-  sendResetPassword,
+  sendForgetPasswordEmail,
 };

@@ -19,7 +19,6 @@ const executeCode = async (code, language, stdin) => {
     if (!langId) throw new Error(`Unsupported language: ${language}`);
 
     const url = process.env.JUDGE0_API_URL;
-    if (!url) throw new Error("JUDGE0_API_URL not set in environment");
 
     const response = await axios.post(
       url,
@@ -31,12 +30,11 @@ const executeCode = async (code, language, stdin) => {
       {
         headers: {
           "Content-Type": "application/json",
-          "X-RapidAPI-Key": process.env.JUDGE0_API_KEY || "",
-          "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com",
         },
       }
     );
-console.log("Judge0 API Response:", response.data);
+
+    console.log("Judge0 API Response:", response.data);
     return response.data;
   } catch (error) {
     console.error("Judge0 API Error:", error.message);
@@ -52,7 +50,6 @@ console.log("Judge0 API Response:", response.data);
     };
   }
 };
-
 
 
 const lastNonEmptyLine = (txt) => {
