@@ -70,7 +70,8 @@ app.use(
   dailyQuestionRoute,
   problemCommentRoute,
   userpremiumPlanRoute,
-  publicProfileRoute
+  publicProfileRoute,
+  userStats
 );
 app.use(
   "/api/user",
@@ -78,7 +79,6 @@ app.use(
   authorizeRoles(["user","admin"]),
   profileRoute,
   problemSubmissionRoute,
-  userStats,
   feedbackRoute,
   problemTextSolutionRoute,
   problemVideoSolutionRoute,

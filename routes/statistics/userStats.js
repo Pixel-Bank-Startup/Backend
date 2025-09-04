@@ -3,7 +3,7 @@ const { getUserStats } = require("../../controller/problemProgress/problemProgre
 const { updateFavoriteCategory } = require("../../controller/stats/userStats");
 const router = express.Router();
 
-router.get("/stats", getUserStats);
+router.get("/stats/:userId", getUserStats);
 router.put("/favorite-category", updateFavoriteCategory);
 
 module.exports = router;

@@ -4,7 +4,7 @@ const { updateFavoriteCategory } = require("../stats/userStats");
 
 const getUserStats = async (req, res) => {
   try {
-    const userId = req.user?.id;
+    const {userId} = req.params;
 
     await updateFavoriteCategory(userId);
 
