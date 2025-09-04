@@ -4,6 +4,8 @@ const Topic = require("../../../model/topics/topicModel");
 
 const handleCreateCollection = async (req, res) => {
   try {
+
+    //for testing purposes
     const { name, description, section, isPremium } = req.body;
     const coverImageUrl = req.file ? req.file.path : undefined;
     const exists = await ProblemCollection.findOne({ name });

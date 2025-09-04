@@ -6,40 +6,12 @@ const { handleAwardBadgeForStreak } = require("../badgeAward/userBadge");
 const axios = require("axios");
 
 const languageMap = {
-  "C (GCC 7.4.0)": 48,
-  "C (GCC 8.3.0)": 49,
-  "C (GCC 9.2.0)": 50,
-  "C# (Mono 6.6.0.161)": 51,
-  "C++ (GCC 7.4.0)": 52,
-  "C++ (GCC 8.3.0)": 53,
-  "C++ (GCC 9.2.0)": 54,
-  "Clojure (1.10.1)": 55,
-  "Crystal (0.33.0)": 56,
-  "Elixir (1.9.4)": 57,
-  "Erlang (OTP 22.2)": 58,
-  "Go (1.13.5)": 60,
-  "Haskell (GHC 8.8.1)": 61,
-  "Java (OpenJDK 13.0.1)": 62,
-  "JavaScript (Node.js 12.14.0)": 63,
-  "Kotlin (1.3.70)": 64,
-  "Lua (5.3.5)": 65,
-  "OCaml (4.09.0)": 66,
-  "Octave (5.1.0)": 67,
-  "Pascal (FPC 3.0.4)": 68,
-  "PHP (7.4.1)": 69,
-  "Prolog (GNU Prolog 1.4.5)": 70,
-  "Python (2.7.17)": 71,
-  python: 71,  
-  "R (4.0.0)": 72,
-  "Ruby (2.7.0)": 73,
-  "Rust (1.40.0)": 74,
-  "Scala (2.13.2)": 75,
-  "SQL (SQLite 3.27.2)": 76,
-  "Swift (5.2.3)": 83,
-  "TypeScript (3.7.4)": 74,
-  "Visual Basic.Net (vbnc 0.0.0.5943)": 84
+  python: 71,       // Python (3.8.1)
+  cpp: 54,          // C++ (GCC 9.2.0)
+  javascript: 63,   // JavaScript (Node.js 12.14.0)
+  java: 62,         // Java (OpenJDK 13.0.1)
+  c: 50,            // C (GCC 9.2.0)
 };
-
 
 const executeCode = async (code, language, stdin) => {
   try {
