@@ -18,7 +18,8 @@ const handleAddProblems = async (req, res) => {
     collectionId,
     topicId,
     starterCode,
-    aboutTopic
+    aboutTopic,
+    solutionCode,
   } = req.body;
 
   try {
@@ -53,6 +54,7 @@ const handleAddProblems = async (req, res) => {
       languages,
       collectionId,
       topicId,
+      solutionCode,
        starterCode: starterCode || {}
     });
 
@@ -84,6 +86,7 @@ const handleUpdateProblem = async (req, res) => {
     if (sampleInput) updateData.sampleInput = sampleInput;
     if (sampleOutput) updateData.sampleOutput = sampleOutput;
     if (explanation) updateData.explanation = explanation;
+    if (solutionCode) updateData.solutionCode = solutionCode;
 
     const updatedProblem = await Problem.findByIdAndUpdate(id, updateData, { new: true });
     if (!updatedProblem) {
