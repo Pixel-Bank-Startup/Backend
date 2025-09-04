@@ -56,7 +56,7 @@ const handleGetCollections = async (req, res) => {
 
     const collections = await ProblemCollection.find().lean();
     if (!collections || collections.length === 0) {
-      return res.status(200).json({ message: "Collections fetched", data: [] });
+      return res.status(200).json({ success: true, message: "Collections fetched", data: [] });
     }
 
     const collectionIds = collections.map(c => new mongoose.Types.ObjectId(c._id));
@@ -77,7 +77,7 @@ const handleGetCollections = async (req, res) => {
         solvedCount: 0,
         totalQuestions: totalMap[c._id.toString()] || 0
       }));
-      return res.status(200).json({ message: "Collections fetched", data: result });
+      return res.status(200).json({ success:false ,message: "Collections fetched", data: result });
     }
 
     const solvedIds = await getUserSolvedProblemIds(userId);
@@ -87,7 +87,7 @@ const handleGetCollections = async (req, res) => {
         solvedCount: 0,
         totalQuestions: totalMap[c._id.toString()] || 0
       }));
-      return res.status(200).json({ message: "Collections fetched", data: result });
+      return res.status(200).json({success:true, message: "Collections fetched", data: result });
     }
 
     const solvedAgg = await Problem.aggregate([
@@ -106,7 +106,7 @@ const handleGetCollections = async (req, res) => {
       totalQuestions: totalMap[c._id.toString()] || 0
     }));
 
-    return res.status(200).json({ message: "Collections fetched", data: result });
+    return res.status(200).json({success:true, message: "Collections fetched", data: result });
   } catch (error) {
     console.error("handleGetCollections:", error);
     return res.status(500).json({ message: error.message });
@@ -153,6 +153,7 @@ const handleGetCollectionById = async (req, res) => {
 
     const collection = await ProblemCollection.findById(id);
     if (!collection) {
+      console.log("Collection not found, returning 404");
       return res.status(404).json({ message: "Collection not found" });
     }
 
@@ -172,10 +173,12 @@ const handleGetCollectionById = async (req, res) => {
       (sum, t) => sum + (Array.isArray(t.questions) ? t.questions.length : 0),
       0
     );
-    let solvedCount = 0;
 
+    let solvedCount = 0;
     const userId = req.user?.id || req.user?.userId || null;
 
+    // Build a set/array of solved problem ObjectIds (if any)
+    let solvedIdStrings = [];
     if (userId) {
       const user = await User.findById(userId).select("solvedProblems");
       if (user && Array.isArray(user.solvedProblems) && user.solvedProblems.length > 0) {
@@ -185,9 +188,12 @@ const handleGetCollectionById = async (req, res) => {
           .map((pid) => (mongoose.isValidObjectId(pid) ? new mongoose.Types.ObjectId(pid) : null))
           .filter(Boolean);
 
+        solvedIdStrings = solvedIds.map((oid) => oid.toString());
+
         if (solvedIds.length > 0) {
           const topicIds = topics.map((t) => t._id).filter(Boolean);
           if (topicIds.length > 0) {
+            // Count how many solved problems belong to any topic in this collection
             solvedCount = await Problem.countDocuments({
               _id: { $in: solvedIds },
               topicId: { $in: topicIds },
@@ -197,19 +203,41 @@ const handleGetCollectionById = async (req, res) => {
       }
     }
 
-    res.status(200).json({
+    // Add per-topic totals and per-topic solved counts (without extra DB calls)
+    const topicsWithCounts = topicsWithQuestions.map((t) => {
+      const totalQ = Array.isArray(t.questions) ? t.questions.length : 0;
+      let solvedQ = 0;
+
+      if (totalQ > 0 && solvedIdStrings.length > 0) {
+        solvedQ = t.questions.reduce((acc, q) => {
+          if (q && q._id && solvedIdStrings.includes(q._id.toString())) return acc + 1;
+          return acc;
+        }, 0);
+      }
+
+      return {
+        ...t,
+        totalQuestions: totalQ,
+        solvedQuestions: solvedQ,
+      };
+    });
+
+    console.log("Responding with collection payload");
+    return res.status(200).json({
       ...collection.toObject(),
-      topics: topicsWithQuestions,
-      solvedCount,      
-      totalQuestions,   
+      topics: topicsWithCounts,
+      solvedCount,
+      totalQuestions,
     });
   } catch (err) {
-    res.status(500).json({
+    console.error("Error in handleGetCollectionById:", err);
+    return res.status(500).json({
       message: "Error fetching collection",
       error: err.message,
     });
   }
 };
+
 
 
 const handleUpdateCollection = async (req, res) => {
