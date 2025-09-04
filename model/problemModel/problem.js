@@ -22,9 +22,8 @@ const ProblemSchema = new mongoose.Schema(
       required: true,
     },
     solutionCode:{ 
-      type: Map,
-      of: String, 
-      default: {},
+      type: String
+  
      },
     category: {
       type: String,

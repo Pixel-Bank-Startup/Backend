@@ -1,5 +1,5 @@
 const ProblemFeedback = require('../../model/feedbackModel/problemFeedback');
-
+const adminEmail = process.env.ADMIN_EMAIL;
 
 const handleCreateFeedback = async (req, res) => {
   try {
@@ -17,6 +17,8 @@ const handleCreateFeedback = async (req, res) => {
       testCases
     });
 
+    await sendFeedbackNotificationEmail(adminEmail, feedback);
+  
     res.status(201).json({
       success: true,
       message: 'Feedback submitted successfully',
