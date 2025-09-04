@@ -4,7 +4,7 @@ const router = express.Router();
 
 
 router.post("/solution/submit", handleSubmitSolution);
-router.get("/solution/question", handleGetSolutionsByQuestion);
+router.get("/solution/:problemId", handleGetSolutionsByQuestion);
 router.get("/solution/user/:userId", handleGetSolutionsByUser);
 
 module.exports = router;

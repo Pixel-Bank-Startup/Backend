@@ -57,7 +57,8 @@ const problemVideoSolutionRoute  = require("./routes/solutionRoute/videoSolution
 const handlePremiumPlanRoute = require('./routes/adminRoute/premiumPlanRoute/planRoute');
 const userpremiumPlanRoute = require('./routes/premiumPlanRoute/plan');
 const subscribeRoute = require('./routes/subscriptionRoute/subscriptionRoute');
-const paymentRoute = require('./routes/paymentRoute/paymentRoute')
+const paymentRoute = require('./routes/paymentRoute/paymentRoute');
+const publicProfileRoute = require('./routes/publicRoute/profileRoute');
 
 app.use("/api/auth", authRoutes, googleAuthRoute);
 app.use(
@@ -68,7 +69,8 @@ app.use(
   leaderboardRoute,
   dailyQuestionRoute,
   problemCommentRoute,
-  userpremiumPlanRoute
+  userpremiumPlanRoute,
+  publicProfileRoute
 );
 app.use(
   "/api/user",

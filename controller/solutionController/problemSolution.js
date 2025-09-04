@@ -26,14 +26,22 @@ const handleSubmitSolution = async (req, res) => {
 
 const handleGetSolutionsByQuestion = async (req, res) => {
   try {
-    const { questionId } = req.body;
-    const solutions = await TextSolution.find({ questionId })
-      .populate("userId", "fullName email")
+    const { problemId } = req.params;
+
+    const solutions = await TextSolution.find({ problemId })
+      .populate("userId", "email")
       .sort({ createdAt: -1 });
 
-    res.status(200).json(solutions);
+    res.status(200).json({
+      problemId,
+      totalSolutions: solutions.length,
+      solutions,
+    });
   } catch (error) {
-    res.status(500).json({ message: "Error fetching solutions", error: error.message });
+    res.status(500).json({
+      message: "Error fetching solutions",
+      error: error.message,
+    });
   }
 };
 

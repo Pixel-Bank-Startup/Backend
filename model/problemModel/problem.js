@@ -21,6 +21,11 @@ const ProblemSchema = new mongoose.Schema(
       enum: ["Easy", "Medium", "Hard"],
       required: true,
     },
+    solutionCode:{ 
+      type: Map,
+      of: String, 
+      default: {},
+     },
     category: {
       type: String,
       enum: [

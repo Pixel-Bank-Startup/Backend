@@ -83,8 +83,20 @@ const userSchema = new mongoose.Schema(
       ref: "Plan",
     },
     flameScore: {
-     type: Number, 
-     default: 0 
+      type: Number,
+      default: 0,
+    },
+    isEmailVisible: {
+      type: Boolean,
+      default: false,
+    },
+    isSocialVisible: {
+      type: Boolean,
+      default: false,
+    },
+    isBadgeVisible: {
+      type: Boolean,
+      default: false,
     },
     premiumStartDate: { type: Date },
     premiumEndDate: { type: Date },
