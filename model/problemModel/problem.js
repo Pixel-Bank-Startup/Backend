@@ -27,23 +27,6 @@ const ProblemSchema = new mongoose.Schema(
      },
     category: {
       type: String,
-      enum: [
-        "Linear Algebra",
-        "Machine Learning",
-        "Deep Learning",
-        "NLP",
-        "Statics",
-        "Probability",
-        "Array",
-        "String",
-        "Dynamic Programming",
-        "Graph",
-        "Tree",
-        "Math",
-        "Greedy",
-        "Sorting",
-        "Hashing",
-      ],
       required: true,
     },
     status: {
