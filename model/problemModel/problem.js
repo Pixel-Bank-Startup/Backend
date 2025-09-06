@@ -25,6 +25,9 @@ const ProblemSchema = new mongoose.Schema(
       type: String
   
      },
+    getHint:{ 
+    type: String
+     },
     category: {
       type: String,
       required: true,

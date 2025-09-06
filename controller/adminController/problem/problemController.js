@@ -20,6 +20,7 @@ const handleAddProblems = async (req, res) => {
     starterCode,
     aboutTopic,
     solutionCode,
+    getHint
   } = req.body;
 
   try {
@@ -55,6 +56,7 @@ const handleAddProblems = async (req, res) => {
       collectionId,
       topicId,
       solutionCode,
+      getHint,
        starterCode: starterCode || {}
     });
 
